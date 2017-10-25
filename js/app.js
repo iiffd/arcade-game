@@ -6,6 +6,8 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.x = 25;
+    this.y = 0;
 };
 
 // Update the enemy's position, required method for game
@@ -27,6 +29,8 @@ Enemy.prototype.render = function() {
 class Player {
   constructor() {
     this.sprite = 'images/char-boy.png';
+    this.x = 101;
+    this.y = 403;
   }
 
   update(dt) {
@@ -38,8 +42,32 @@ class Player {
 
   }
 
-  handleInput() {
+  /** Change x y coordinate upon key input */
+  handleInput(key) {
+    console.log(key);
+    switch (key) {
+      case 'right':
+        if (this.x + 101 < 505) {
+          this.x+=101;
+        }
+        break;
+      case 'left':
+      if (this.x - 101 >= 0) {
+        this.x-=101;
+      }
+      break;
+      case 'up':
+        if (this.y - 83 >= -15) {
+          this.y-=83;
+        }
+        break;
+      case 'down':
+        if (this.y + 83 < 483) {
+          console.log(this.y);
+          this.y+=83;
+        }
 
+    }
   }
 }
 
