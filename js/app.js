@@ -1,14 +1,12 @@
 // Enemies our player must avoid
 class Enemy {
-  constructor() {
+  constructor(start_point) {
     this.sprite = 'images/enemy-bug.png';
     this.x = -100;
-    this.y = 143;
+    this.y = 143 + start_point;
   }
 
   update(dt) {
-    const choice = Math.random();
-
     if (this.x + 101 < 605) {
       this.x+=(101*dt);
     }
@@ -54,7 +52,9 @@ class Player {
       }
       break;
       case 'up':
-        if (this.y - 83 >= -15) {
+        if (this.y - 83 <= -15) {
+          this.resetPlayer();
+        } else {
           this.y-=83;
         }
         break;
@@ -62,8 +62,13 @@ class Player {
         if (this.y + 83 < 483) {
           this.y+=83;
         }
-
     }
+  }
+
+  /** If contact is made with water, resets start state. */
+  resetPlayer() {
+    this.x = 101;
+    this.y = 403;
   }
 }
 
@@ -72,9 +77,15 @@ class Player {
 // Place the player object in a variable called player
 const allEnemies = [];
 
-let start_point = '';
+let start_point = 0;
 for (let i = 0; i < 8; i++) {
-  allEnemies.push(new Enemy());
+  const random_choice = Math.random();
+  if (random_choice > 0.5) {
+    start_point = 83;
+  } else {
+    start_point = 0;
+  }
+  allEnemies.push(new Enemy(start_point));
 }
 const player = new Player();
 
