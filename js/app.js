@@ -16,6 +16,15 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
+
+
+    const choice = Math.random();
+
+    if (this.x + 101 < 505) {
+      this.x+=(101*dt);
+    }
+
 };
 
 // Draw the enemy on the screen, required method for game
@@ -44,7 +53,6 @@ class Player {
 
   /** Change x y coordinate upon key input */
   handleInput(key) {
-    console.log(key);
     switch (key) {
       case 'right':
         if (this.x + 101 < 505) {
@@ -63,7 +71,6 @@ class Player {
         break;
       case 'down':
         if (this.y + 83 < 483) {
-          console.log(this.y);
           this.y+=83;
         }
 
