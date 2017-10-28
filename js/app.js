@@ -1,17 +1,32 @@
-// Enemies our player must avoid
+/** Class representing enemy object. */
 class Enemy {
+  /**
+  * Enemy constructor.
+  * @param {integer} start_point - Row where enemy is initialized.
+  * @param {string} this.sprite - Location of enemy image.
+  * @param {integer} this.x - Starting x axis.
+  * @param {integer} this.y - Starting y axis.
+  */
   constructor(start_point) {
     this.sprite = 'images/enemy-bug.png';
     this.x = -100;
     this.y = 143 + start_point;
   }
 
+  /** Multiplies with game time for smoother framerate */
   update(dt) {
+    let self = this;
     if (this.x + 101 < 605) {
       this.x+=(101*dt);
+    } else {
+      setTimeout(function() {
+        console.log(this.x);
+        self.x = -100;
+      }, 600);
     }
   }
 
+  /** Draw enemies starting at given x, y location. */
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
@@ -19,26 +34,35 @@ class Enemy {
 }
 
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+/** Class representing player object. */
 class Player {
+  /**
+  * Player constructor.
+  * @param {string} this.sprite - Location of player image.
+  * @param {integer} this.x - Starting x axis.
+  * @param {integer} this.y - Starting y axis.
+  */
   constructor() {
     this.sprite = 'images/char-boy.png';
-    this.x = 101;
+    this.x = 201;
     this.y = 403;
   }
 
+  /** Multiplies with game time for smoother framerate */
   update(dt) {
 
   }
 
+  /** Draw main character starting at x, y location. */
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 
   }
 
-  /** Change x y coordinate upon key input */
+  /**
+  * Change x y coordinate upon key input.
+  * @param {string} key - String of player input.
+  */
   handleInput(key) {
     switch (key) {
       case 'right':
@@ -52,7 +76,7 @@ class Player {
       }
       break;
       case 'up':
-        if (this.y - 83 <= -15) {
+        if (this.y - 83 <= 68) {
           this.resetPlayer();
         } else {
           this.y-=83;
@@ -67,7 +91,7 @@ class Player {
 
   /** If contact is made with water, resets start state. */
   resetPlayer() {
-    this.x = 101;
+    this.x = 201;
     this.y = 403;
   }
 }
