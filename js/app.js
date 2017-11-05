@@ -11,17 +11,19 @@ class Enemy {
     this.sprite = 'images/enemy-bug.png';
     this.x = -100;
     this.y = 143 + start_point;
+    this.speed = Math.random() * 5;
   }
 
   /** Multiplies with game time for smoother framerate */
   update(dt) {
     let self = this;
     if (this.x + 101 < 605) {
-      this.x+=(101*dt);
+      this.x+=(101*dt*this.speed);
     } else {
       setTimeout(function() {
         console.log(this.x);
-        self.x = -100;
+        self.x = -120;
+        self.speed = Math.random() * 5;
       }, 600);
     }
   }
@@ -95,6 +97,9 @@ class Player {
     this.y = 403;
   }
 }
+
+
+// TODO: Should have an array of dimensions that get checked at every update instance. Maybe a gamestate instance with array?
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
