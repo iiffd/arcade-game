@@ -11,3 +11,4 @@ A list of features I want to include in the future:
 1. Score counter.
 2. Collectable objects.
 3. Player selection screen.
+4. Host game in s3 bucket.
