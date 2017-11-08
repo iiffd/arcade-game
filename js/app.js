@@ -3,6 +3,7 @@ class Enemy {
   /**
   * Enemy constructor.
   * @param {integer} start_point - Row where enemy is initialized.
+  * @param {object} player - Player object for detecting player location.
   * @param {string} this.sprite - Location of enemy image.
   * @param {integer} this.x - Starting x axis.
   * @param {integer} this.y - Starting y axis.
@@ -10,7 +11,7 @@ class Enemy {
   constructor(start_point, player) {
     this.sprite = 'images/enemy-bug.png';
     this.x = -100;
-    this.y = 143 + start_point;
+    this.y = 60 + start_point;
     this.speed = Math.random() * 5;
     this.player = player;
   }
@@ -18,24 +19,32 @@ class Enemy {
   /** Multiplies with game time for smoother framerate */
   update(dt) {
     let self = this;
-    if (this.x + 101 < 605) {
-      this.x+=(101*dt*this.speed);
+
+    // Movement for enemies
+    if (self.x + 101 < 605) {
+      self.x+=(101*dt*self.speed);
     } else {
       setTimeout(function() {
         self.x = -120;
         self.speed = Math.random() * 5;
       }, 600);
     }
-    //console.log(self.player.x);
+    this.detectCollision();
   }
 
   /** Draw enemies starting at given x, y location. */
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
 
+  /** Detect collision with player. **/
+  detectCollision() {
+    if (this.x + 77 > this.player.x && this.x - 70 < this.player.x &&
+        this.y == this.player.y - 11) {
+      this.player.resetPlayer();
+    }
   }
 }
-
 
 /** Class representing player object. */
 class Player {
@@ -67,7 +76,6 @@ class Player {
   * @param {string} key - String of player input.
   */
   handleInput(key) {
-    console.log(this.x);
     switch (key) {
       case 'right':
         if (this.x + 101 <= 403) {
@@ -109,7 +117,7 @@ class Player {
 const allEnemies = [];
 const player = new Player();
 
-let start_point = -83;
+let start_point = 0;
 
 for (let i = 0; i < 3; i++) {
   for (let i = 0; i < 3; i++) {
