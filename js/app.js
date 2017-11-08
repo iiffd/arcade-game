@@ -18,7 +18,7 @@ class Enemy {
 
   /** Multiplies with game time for smoother framerate */
   update(dt) {
-    let self = this;
+    const self = this;
 
     // Movement for enemies
     if (self.x + 101 < 605) {
@@ -115,10 +115,35 @@ function winMessage() {
   $('#myModal').modal('toggle');
 }
 
+/**
+* Stagger time enemy is initialized. Found solution on stacks overflow.
+* Link below:
+* https://stackoverflow.com/questions/10242254/settimeout-in-for-loop-with-random-delay
+* @param {integer} start_point - Designate row where enemy starts.
+* @param {object} player - Player object with player location info.
+*/
+function delayEnemyStart(start_point, player) {
+  for (let i = 0; i < 3; i++) {
+    (function(i) {
+      setTimeout(function() {
+        allEnemies.push(new Enemy(start_point, player));
+      }, Math.random() * 2000);
+    })(i);
+  }
+}
+
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const allEnemies = [];
 const player = new Player();
+
+let start_point = 0;
+
+// Initialize enemies for each row.
+for (let i = 0; i < 3; i++) {
+  delayEnemyStart(start_point, player);
+  start_point += 83;
+}
 
 // Removes modal on x click.
 $('.close').click(function() {
@@ -129,16 +154,6 @@ $('.close').click(function() {
 $('.btn-success').click(function() {
   $('#myModal').modal('toggle');
 });
-
-let start_point = 0;
-
-// Initialize enemies for each row.
-for (let i = 0; i < 3; i++) {
-  for (let i = 0; i < 3; i++) {
-    allEnemies.push(new Enemy(start_point, player));
-  }
-  start_point += 83;
-}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
