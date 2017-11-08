@@ -90,6 +90,7 @@ class Player {
       case 'up':
         if (this.y - 83 <= 68) {
           this.resetPlayer();
+          winMessage();
         } else {
           this.y-=83;
         }
@@ -108,17 +109,30 @@ class Player {
   }
 }
 
+/** Open modal with win message when water is reached. */
+function winMessage() {
+  $('#end-message').text("Great job! You won!");
+  $('#myModal').modal('toggle');
+}
 
-// TODO: Should have an array of dimensions that get checked at every update instance. Maybe a gamestate instance with array?
-
-// Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const allEnemies = [];
 const player = new Player();
 
+// Removes modal on x click.
+$('.close').click(function() {
+  $('#myModal').modal('toggle');
+});
+
+// Play again button. Closes modal.
+$('.btn-success').click(function() {
+  $('#myModal').modal('toggle');
+});
+
 let start_point = 0;
 
+// Initialize enemies for each row.
 for (let i = 0; i < 3; i++) {
   for (let i = 0; i < 3; i++) {
     allEnemies.push(new Enemy(start_point, player));
