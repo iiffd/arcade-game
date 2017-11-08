@@ -7,11 +7,12 @@ class Enemy {
   * @param {integer} this.x - Starting x axis.
   * @param {integer} this.y - Starting y axis.
   */
-  constructor(start_point) {
+  constructor(start_point, player) {
     this.sprite = 'images/enemy-bug.png';
     this.x = -100;
     this.y = 143 + start_point;
     this.speed = Math.random() * 5;
+    this.player = player;
   }
 
   /** Multiplies with game time for smoother framerate */
@@ -21,11 +22,11 @@ class Enemy {
       this.x+=(101*dt*this.speed);
     } else {
       setTimeout(function() {
-        console.log(this.x);
         self.x = -120;
         self.speed = Math.random() * 5;
       }, 600);
     }
+    //console.log(self.player.x);
   }
 
   /** Draw enemies starting at given x, y location. */
@@ -66,14 +67,15 @@ class Player {
   * @param {string} key - String of player input.
   */
   handleInput(key) {
+    console.log(this.x);
     switch (key) {
       case 'right':
-        if (this.x + 101 < 505) {
+        if (this.x + 101 <= 403) {
           this.x+=101;
         }
         break;
       case 'left':
-      if (this.x - 101 >= 0) {
+      if (this.x - 101 >= -1) {
         this.x-=101;
       }
       break;
@@ -105,18 +107,16 @@ class Player {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const allEnemies = [];
-
-let start_point = 0;
-for (let i = 0; i < 8; i++) {
-  const random_choice = Math.random();
-  if (random_choice > 0.5) {
-    start_point = 83;
-  } else {
-    start_point = 0;
-  }
-  allEnemies.push(new Enemy(start_point));
-}
 const player = new Player();
+
+let start_point = -83;
+
+for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 3; i++) {
+    allEnemies.push(new Enemy(start_point, player));
+  }
+  start_point += 83;
+}
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
