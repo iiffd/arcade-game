@@ -137,23 +137,28 @@ function delayEnemyStart(start_point, player) {
 const allEnemies = [];
 const player = new Player();
 
-let start_point = 0;
+/** Initialize game. */
+function initGame() {
+  let start_point = 0;
 
-// Initialize enemies for each row.
-for (let i = 0; i < 3; i++) {
-  delayEnemyStart(start_point, player);
-  start_point += 83;
+  // Initialize enemies for each row.
+  for (let i = 0; i < 3; i++) {
+    delayEnemyStart(start_point, player);
+    start_point += 83;
+  }
+
+  // Removes modal on x click.
+  $('.close').click(function() {
+    $('#myModal').modal('toggle');
+  });
+
+  // Play again button. Closes modal.
+  $('.btn-success').click(function() {
+    $('#myModal').modal('toggle');
+  });
 }
 
-// Removes modal on x click.
-$('.close').click(function() {
-  $('#myModal').modal('toggle');
-});
-
-// Play again button. Closes modal.
-$('.btn-success').click(function() {
-  $('#myModal').modal('toggle');
-});
+initGame();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
